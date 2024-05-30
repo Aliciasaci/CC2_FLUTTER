@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'choice_item.dart';
+import '../models/tag.dart';
 
 class Footer extends StatefulWidget {
-  final List<String> choices;
-  final List<String> selectedChoices;
-  final Function(String) onChoiceToggle;
+  final List<Tag> choices;
+  final List<Tag> selectedChoices;
+  final Function(Tag) onChoiceToggle;
 
   Footer({required this.choices, required this.selectedChoices, required this.onChoiceToggle});
 
@@ -57,9 +58,15 @@ class _FooterState extends State<Footer> {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                IconButton(
-                  icon: Icon(Icons.color_lens, color: Colors.white),
+                ElevatedButton(
                   onPressed: () => pickColor(context),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.grey,
+                  ),
+                  child: Icon(
+                    Icons.color_lens,
+                    color: Colors.white,
+                  ),
                 ),
               ],
             ),
@@ -67,11 +74,11 @@ class _FooterState extends State<Footer> {
               alignment: WrapAlignment.start,
               spacing: 8.0,
               runSpacing: 4.0,
-              children: widget.choices.map((choice) {
+              children: widget.choices.map((tag) {
                 return ChoiceItem(
-                  choice: choice,
-                  isSelected: widget.selectedChoices.contains(choice),
-                  onTap: () => widget.onChoiceToggle(choice),
+                  choice: tag.title,
+                  isSelected: widget.selectedChoices.contains(tag),
+                  onTap: () => widget.onChoiceToggle(tag),
                 );
               }).toList(),
             ),

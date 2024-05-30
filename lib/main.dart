@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import './components/header.dart';
-import './components/footer.dart';
+import './services/api_services.dart';
+import './models/tag.dart';
+import 'components/header.dart';
+import 'components/footer.dart';
 
 void main() {
   runApp(MyApp());
@@ -22,9 +24,16 @@ class ChoixScreen extends StatefulWidget {
 }
 
 class _ChoixScreenState extends State<ChoixScreen> {
-  List<String> selectedChoices = [];
+  List<Tag> selectedChoices = [];
+  late Future<List<Tag>> futureTags;
 
-  void toggleChoice(String choice) {
+  @override
+  void initState() {
+    super.initState();
+    futureTags = ApiService().fetchData();
+  }
+
+  void toggleChoice(Tag choice) {
     setState(() {
       if (selectedChoices.contains(choice)) {
         selectedChoices.remove(choice);
@@ -36,9 +45,6 @@ class _ChoixScreenState extends State<ChoixScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Générer 40 tags
-    List<String> tags = List.generate(40, (index) => 'tag-${index + 1}');
-
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -49,19 +55,24 @@ class _ChoixScreenState extends State<ChoixScreen> {
             ),
             Expanded(
               flex: 1,
-              child: Footer(
-                choices: [
-                  'cinema',
-                  'petanque',
-                  'fitness',
-                  'League Of Legend',
-                  'basket',
-                  'shopping',
-                  'programmation',
-                  ...tags,
-                ],
-                selectedChoices: selectedChoices,
-                onChoiceToggle: toggleChoice,
+              child: FutureBuilder<List<Tag>>(
+                future: futureTags,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Center(child: Text('${snapshot.error}'));
+                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return Center(child: Text('No tags found'));
+                  } else {
+                    List<Tag> tags = snapshot.data!;
+                    return Footer(
+                      choices: tags,
+                      selectedChoices: selectedChoices,
+                      onChoiceToggle: toggleChoice,
+                    );
+                  }
+                },
               ),
             ),
           ],

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'header.dart';
-import 'footer.dart';
+import './components/header.dart';
+import './components/footer.dart';
 
 void main() {
   runApp(MyApp());
@@ -36,6 +36,9 @@ class _ChoixScreenState extends State<ChoixScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Générer 40 tags
+    List<String> tags = List.generate(40, (index) => 'tag-${index + 1}');
+
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -55,6 +58,7 @@ class _ChoixScreenState extends State<ChoixScreen> {
                   'basket',
                   'shopping',
                   'programmation',
+                  ...tags,
                 ],
                 selectedChoices: selectedChoices,
                 onChoiceToggle: toggleChoice,

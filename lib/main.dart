@@ -33,7 +33,7 @@ class _ChoixScreenState extends State<ChoixScreen> {
     futureTags = ApiService().fetchData();
   }
 
-  void toggleChoice(Tag choice) {
+  void flipChoice(Tag choice) {
     setState(() {
       if (selectedChoices.contains(choice)) {
         selectedChoices.remove(choice);
@@ -69,7 +69,7 @@ class _ChoixScreenState extends State<ChoixScreen> {
                     return Footer(
                       choices: tags,
                       selectedChoices: selectedChoices,
-                      onChoiceToggle: toggleChoice,
+                      onChoiceFlip: flipChoice,
                     );
                   }
                 },

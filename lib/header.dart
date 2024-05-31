@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'tag_detail.dart';
 import 'core/models/tag.dart';
+import 'color_picker.dart';
 
 class Header extends StatefulWidget {
   final List<Tag> selectedChoices;
@@ -15,35 +15,6 @@ class Header extends StatefulWidget {
 class _HeaderState extends State<Header> {
   Color headerColor = Colors.deepPurple[400]!;
 
-  void pickColor(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Sélectionnez une couleur pour le header'),
-          content: SingleChildScrollView(
-            child: ColorPicker(
-              pickerColor: headerColor,
-              onColorChanged: (Color color) {
-                setState(() {
-                  headerColor = color;
-                });
-              },
-            ),
-          ),
-          actions: <Widget>[
-            ElevatedButton(
-              child: Text('Fermer'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   void navigateToTagDetails(BuildContext context, Tag tag) {
     Navigator.push(
       context,
@@ -52,6 +23,7 @@ class _HeaderState extends State<Header> {
           title: tag.title,
           description: tag.description,
           category : tag.category,
+          price : tag.price,
         ),
       ),
     );
@@ -74,7 +46,11 @@ class _HeaderState extends State<Header> {
               ),
               Spacer(),
               ElevatedButton(
-                onPressed: () => pickColor(context),
+                onPressed: () => pickColor(context, headerColor, (color) {
+                  setState(() {
+                    headerColor = color;
+                  });
+                }),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.grey,
                 ),

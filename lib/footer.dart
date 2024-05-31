@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'choice_item.dart';
 import 'core/models/tag.dart';
+import 'color_picker.dart';
 
 class Footer extends StatefulWidget {
   final List<Tag> choices;
   final List<Tag> selectedChoices;
-  final Function(Tag) onChoiceToggle;
+  final Function(Tag) onChoiceFlip;
 
-  Footer({required this.choices, required this.selectedChoices, required this.onChoiceToggle});
+  Footer({required this.choices, required this.selectedChoices, required this.onChoiceFlip});
 
   @override
   _FooterState createState() => _FooterState();
@@ -16,35 +16,6 @@ class Footer extends StatefulWidget {
 
 class _FooterState extends State<Footer> {
   Color footerColor = Colors.white;
-
-  void pickColor(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Sélectionnez une couleur pour le footer'),
-          content: SingleChildScrollView(
-            child: ColorPicker(
-              pickerColor: footerColor,
-              onColorChanged: (Color color) {
-                setState(() {
-                  footerColor = color;
-                });
-              },
-            ),
-          ),
-          actions: <Widget>[
-            ElevatedButton(
-              child: Text('Fermer'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +30,12 @@ class _FooterState extends State<Footer> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 ElevatedButton(
-                  onPressed: () => pickColor(context),
+                  onPressed: () =>
+                      pickColor(context, footerColor, (color) {
+                        setState(() {
+                          footerColor = color;
+                        });
+                      }),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.grey,
                   ),
@@ -78,7 +54,7 @@ class _FooterState extends State<Footer> {
                 return ChoiceItem(
                   choice: tag.title,
                   isSelected: widget.selectedChoices.contains(tag),
-                  onTap: () => widget.onChoiceToggle(tag),
+                  onTap: () => widget.onChoiceFlip(tag),
                 );
               }).toList(),
             ),

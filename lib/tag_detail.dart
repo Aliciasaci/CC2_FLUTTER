@@ -4,12 +4,14 @@ class TagDetails extends StatelessWidget {
   final String title;
   final String description;
   final String category;
+  final double price;
 
   const TagDetails({
     super.key,
     required this.title,
     required this.description,
     required this.category,
+    required this.price,
   });
 
   @override
@@ -63,7 +65,15 @@ class TagDetails extends StatelessWidget {
                 ),
                 SizedBox(height: 16.0),
                 Text(
-                  "Category : " + category,
+                  "Category: $category",
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.black87,
+                  ),
+                ),
+                SizedBox(height: 16.0),
+                Text(
+                  "Price: \$${price.toStringAsFixed(2)}",
                   style: TextStyle(
                     fontSize: 16,
                     color: Colors.black87,

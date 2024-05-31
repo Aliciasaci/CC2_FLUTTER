@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import './services/api_services.dart';
-import './models/tag.dart';
-import 'components/header.dart';
-import 'components/footer.dart';
+import 'core/services/api_services.dart';
+import 'core/models/tag.dart';
+import 'header.dart';
+import 'footer.dart';
 
 void main() {
   runApp(MyApp());

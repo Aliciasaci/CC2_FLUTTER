@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'tag_detail.dart';
-import '../models/tag.dart';
+import 'core/models/tag.dart';
 
 class Header extends StatefulWidget {
   final List<Tag> selectedChoices;
@@ -22,7 +22,7 @@ class _HeaderState extends State<Header> {
         return AlertDialog(
           title: Text('Sélectionnez une couleur pour le header'),
           content: SingleChildScrollView(
-            child: BlockPicker(
+            child: ColorPicker(
               pickerColor: headerColor,
               onColorChanged: (Color color) {
                 setState(() {

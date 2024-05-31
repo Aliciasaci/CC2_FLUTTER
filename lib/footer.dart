@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'choice_item.dart';
-import '../models/tag.dart';
+import 'core/models/tag.dart';
 
 class Footer extends StatefulWidget {
   final List<Tag> choices;
@@ -24,7 +24,7 @@ class _FooterState extends State<Footer> {
         return AlertDialog(
           title: Text('Sélectionnez une couleur pour le footer'),
           content: SingleChildScrollView(
-            child: BlockPicker(
+            child: ColorPicker(
               pickerColor: footerColor,
               onColorChanged: (Color color) {
                 setState(() {
